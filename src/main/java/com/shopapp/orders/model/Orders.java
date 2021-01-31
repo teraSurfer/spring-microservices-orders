@@ -2,8 +2,10 @@ package com.shopapp.orders.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,6 +51,24 @@ public class Orders implements Serializable {
 
     @Column(name="updated_at")
     private Timestamp updatedAt;
+
+    // store list of product ids for this order
+    //{
+    //	"shippingAddress": "501 Dreamland ave, San Jose, CA USA",
+    //	"totalPrice": 2500.99,
+    //	"orderItems": [
+    //		{
+    //			"productId": 4,
+    //			"productCount": 6
+    //		},
+    //		{
+    //			"productId": 3,
+    //			"productCount": 10
+    //		}
+    //	]
+    //}
+    @ElementCollection
+    private List<OrderItem> orderItems;
 
     @PrePersist
     public void beforeCreate() {
